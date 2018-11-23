@@ -50,11 +50,11 @@ dfFilt = pd.concat([dfFilt, szona], axis=1)
 df_x = dfFilt[['Hora', 'Dia', 'Zona']]
 df_y = dfFilt[['Precio Zonal  ($/MWh)']]
 
-df_x_train = df_x[:8760]
-df_x_test = df_x[8760:]
+df_x_train = df_x[:884762]
+df_x_test = df_x[884762:]
 
-df_y_train = df_y[:8760]
-df_y_test = df_y[8760:]
+df_y_train = df_y[:884762]
+df_y_test = df_y[884762:]
 
 regr = linear_model.LinearRegression()
 regr.fit(df_x_train, df_y_train)
@@ -70,8 +70,8 @@ print('Variance score: %.2f' % r2_score(df_y_test, df_y_pred))
 
 df_x = sm.add_constant(df_x)
 
-model = sm.OLS(df_y, df_x).fit()
-predictions = model.predict(df_x)
+model = sm.OLS(df_y_train, df_x_train).fit()
+predictions = model.predict(df_x_test)
 
 summ = model.summary()
 
