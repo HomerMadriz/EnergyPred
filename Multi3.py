@@ -53,6 +53,15 @@ dfFilt18 = agregarDia(dfFilt18)
 dfFilt17 = agregarZona(dfFilt17)
 dfFilt18 = agregarZona(dfFilt18)
 
+dfFilt17 =dfFilt17.replace({'Hora':{25:24}})
+dfFilt18 =dfFilt18.replace({'Hora':{25:24}})
+
+mean17 = dfFilt17['Precio Zonal  ($/MWh)'].mean()
+mean18 = dfFilt18['Precio Zonal  ($/MWh)'].mean()
+
+dfFilt17['Precio Zonal  ($/MWh)'] = dfFilt17['Precio Zonal  ($/MWh)'].where(dfFilt17['Precio Zonal  ($/MWh)'] > 0, mean17)
+dfFilt18['Precio Zonal  ($/MWh)'] = dfFilt18['Precio Zonal  ($/MWh)'].where(dfFilt18['Precio Zonal  ($/MWh)'] > 0, mean18)
+
 df_x_train = dfFilt17[['Hora', 'Dia', 'Zona']]
 df_x_test = dfFilt18[['Hora', 'Dia', 'Zona']]
 
@@ -71,9 +80,9 @@ print("Mean squared error: %.2f"
 # Explained variance score: 1 is perfect prediction
 print('Variance score: %.2f' % r2_score(df_y_test, df_y_pred))
 
-df_x_train = sm.add_constant(df_x_train)
+#df_x_train = sm.add_constant(df_x_train)
 
-df_x_test = sm.add_constant(df_x_test)
+#df_x_test = sm.add_constant(df_x_test)
 
 model = sm.OLS(df_y_train, df_x_train).fit()
 predictions = model.predict(df_x_test)
