@@ -53,6 +53,15 @@ dfFilt18 = agregarDia(dfFilt18)
 dfFilt17 = agregarZona(dfFilt17)
 dfFilt18 = agregarZona(dfFilt18)
 
+dfFilt17 =dfFilt17.replace({'Hora':{25:24}})
+dfFilt18 =dfFilt18.replace({'Hora':{25:24}})
+
+mean17 = dfFilt17['Precio Zonal  ($/MWh)'].mean()
+mean18 = dfFilt18['Precio Zonal  ($/MWh)'].mean()
+
+dfFilt17['Precio Zonal  ($/MWh)'] = dfFilt17['Precio Zonal  ($/MWh)'].where(dfFilt17['Precio Zonal  ($/MWh)'] > 0, mean17)
+dfFilt18['Precio Zonal  ($/MWh)'] = dfFilt18['Precio Zonal  ($/MWh)'].where(dfFilt18['Precio Zonal  ($/MWh)'] > 0, mean18)
+
 df_x_train = dfFilt17[['Hora', 'Dia', 'Zona']]
 df_x_test = dfFilt18[['Hora', 'Dia', 'Zona']]
 
